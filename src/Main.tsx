@@ -7,9 +7,10 @@ const Main = () => {
   const [inputValue, setInputValue] = useState(param.get('value') || '');
   const [toggleBox, setToggleBox] = useState(false);
   const [id, setId] = useState('');
-  const [formatToggle, setFormatToggle] = useState('mp3');
+  const [formatToggle, setFormatToggle] = useState(param.get('format') === 'mp3' || param.get('format') === 'mp4' ? param.get('format') : 'mp3');
   const [disabled, setDisabled] = useState(false);
   const [Blob, setBlob] = useState <Blob> ();
+  const [msg, setMsg] = useState('');
   const once = useRef(true);
   const converting = useRef(false);
 
@@ -21,6 +22,7 @@ const Main = () => {
       alert("不正なURLです。")
       return
     };
+    setMsg('動画を' + ((formatToggle === 'mp3') ? 'MP3' : 'MP4') + 'に変換しています...');
     const old = inputValue.split('v=')[1];
     const youtube_id = old ? old.substring(0, 11) : inputValue.split('/', 4)[3];
     setDisabled(true);
@@ -41,7 +43,7 @@ const Main = () => {
       if(!res.ok) {
         throw new Error('ytdlまたはexecのエラー');
       };
-
+      setMsg('ダウンロードの準備をしています...');
       const blob = await res.blob();
       setBlob(blob);
       setToggleBox(true);
@@ -72,7 +74,7 @@ const Main = () => {
               className='textInput'
               placeholder='YouTube link'
             /> 
-            <select className="format" onChange={event => setFormatToggle(event.target.value)}>
+            <select className="format" onChange={event => setFormatToggle(event.target.value)} value={formatToggle!}>
               <option value="mp3">MP3</option>
               <option value="mp4">MP4</option>
             </select>
@@ -81,7 +83,7 @@ const Main = () => {
             className='changeButton' 
             onClick={() => handleConvert()} 
             disabled={disabled}
-            style={{opacity: disabled ? '0.7' : '1'}}>変換</button>
+            style={{opacity: disabled ? '0.5' : '1'}}>変換</button>
           </div>
         </div>
         <div className='content' style={{display: contentsToggle}}>
@@ -89,10 +91,10 @@ const Main = () => {
         </div>
       </div>
       {converting.current ? (
-        <div className='converting'>動画を{formatToggle === 'mp3' ? 'MP3' : 'MP4'}に変換しています...</div>
+        <div className='converting'>{msg}</div>
       ) : null}
       {toggleBox ? (
-       <DownloadBox blob={Blob!} format={formatToggle} id={id}/> 
+       <DownloadBox blob={Blob!} format={formatToggle!} id={id}/> 
       ) : null}
     </main>
   )

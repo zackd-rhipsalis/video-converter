@@ -23,6 +23,24 @@
   font-weight: bold;
 }
 
+.line {
+  text-decoration: none;
+  margin-left: auto;
+  margin-right: 1rem;
+  color: #000;
+  background-color: skyblue;
+  width: 5rem;
+  height: 2.8rem;
+  border-radius: 15px;
+  box-shadow: 2px 3px 1px rgb(121, 201, 233);
+}
+
+.line > div {
+  text-align: center;
+  margin-top: 0.8rem;
+  font-weight: bold;
+}
+
 /* main */
 
 .main {
@@ -117,7 +135,6 @@
 
 .cont {
   font-size: 1.1rem;
-  margin-left: 1rem;
 }
 
 .thumb {

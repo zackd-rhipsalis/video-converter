@@ -46,7 +46,7 @@ const DownloadBox = (props: DownloadBoxProps) => {
         </div>
       </div>
       <div className='infors'>
-        <div className='cont'>動画タイトル: {navigator.userAgent.match(/iPhone|Android.+Mobile/) && infors?.title && infors.title.length > 20 ? infors?.title.substring(0, 20) + '...' : infors?.title}</div>
+        <div className='cont'>動画タイトル: {navigator.userAgent.match(/iPhone|Android.+Mobile/) && infors?.title && infors.title.length > 25 ? infors?.title.substring(0, 25) + '...' : infors?.title}</div>
         <div className='cont'>動画時間: {infors?.time}</div>
         <a href={`https://www.youtube.com/watch?v=${props.id}`} target="_blank"><img src={infors?.thumbnail} alt="you're small fish" className='thumb'/></a>
       </div>

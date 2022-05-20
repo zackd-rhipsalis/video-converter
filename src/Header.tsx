@@ -6,7 +6,7 @@ const Header =  () => {
     <header className='header'>
       <img src={logo} alt="logo" className='header-logo'/>
       <div className='header-text'>VIDEO CONVERTER</div>
-      {/* <a href="#"><div>LINEと連携</div></a> */}
+      <a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=922lmgql" className='line' target='_blank'><div>LINE</div></a>
     </header>
   )
 };
