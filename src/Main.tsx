@@ -46,7 +46,7 @@ const Main = () => {
       setBlob(blob);
       setToggleBox(true);
     } catch (err) {
-      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・動画時間が長すぎる\n・動画が削除/非公開にされている\n・ライブ配信中、もしくはプレミアム公開中\n・URLにタイプミスがある');
+      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・動画時間が長すぎる\n・動画が削除/非公開にされている\n・ライブ配信中、またはプレミア公開中\n・URLに誤りがある');
       console.log(err);
       window.location.href = '/';
     };
@@ -69,14 +69,19 @@ const Main = () => {
               type="url" 
               onChange={event => setInputValue(event.target.value)} 
               value={inputValue}
-              className='textInput' placeholder='YouTube link'
+              className='textInput'
+              placeholder='YouTube link'
             /> 
             <select className="format" onChange={event => setFormatToggle(event.target.value)}>
               <option value="mp3">MP3</option>
               <option value="mp4">MP4</option>
             </select>
             <br />
-            <button className='changeButton' onClick={() => handleConvert()} disabled={disabled}>変換</button>
+            <button 
+            className='changeButton' 
+            onClick={() => handleConvert()} 
+            disabled={disabled}
+            style={{opacity: disabled ? '0.7' : '1'}}>変換</button>
           </div>
         </div>
         <div className='content' style={{display: contentsToggle}}>

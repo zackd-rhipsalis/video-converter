@@ -51,6 +51,7 @@
 
 .format {
   background-color: #BCE1DF;
+  color: #000;
   border: none;
   width: 3.5rem;
   height: 2.3rem;
@@ -74,6 +75,8 @@
   border: none;
   width: 7rem;
   height: 2rem;
+  font-size: 1.17rem;
+  color: #000;
   box-shadow: 0 3px 1px rgb(102, 152, 27);
   margin-top: 1rem;
   cursor: pointer;
@@ -84,11 +87,17 @@
   background-color: rgb(185, 214, 128);
   box-shadow: 0 3px 1px rgb(102, 152, 27);
   margin: auto;
+  margin-top: 1rem;
   font-size: 1.3rem;
+  color: #000;
   width: 11rem;
   height: 2.5rem;
   border: none;
   border-radius: 5px;
+}
+
+.download-box {
+  height: 15rem
 }
 
 .converting {
@@ -102,7 +111,7 @@
 .infors {
   width: 85%;
   background-color: #BCE1DF;
-  margin: 7rem auto auto auto;
+  margin: 5rem auto auto auto;
   border-radius: 10px;
 }
 
@@ -166,6 +175,11 @@
   .download-box {
     width: 60%;
     height: 13rem;
+  }
+
+  .downloadButton {
+    margin-top: auto;
+    margin-right: 1rem;
   }
 
   .infors {

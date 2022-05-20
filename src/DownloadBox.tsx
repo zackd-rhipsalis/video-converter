@@ -18,14 +18,7 @@ const DownloadBox = (props: DownloadBoxProps) => {
   const [infors, setInfors] = useState <Infors> ();
   const once = useRef(true);
 
-  const handleDownload = async (): Promise <void> => {
-    fileDownload(props.blob, `${infors?.title}.${props.format}`);
-    setTimeout(() => {
-      const result = window.confirm("前の画面に戻りますか？");
-      if(!result) return;
-      window.location.href = '/';
-    }, 300);
-  };
+  const handleDownload = (): void => fileDownload(props.blob, `${infors?.title}.${props.format}`);
 
   useEffect(() => {
     if(once.current) {
@@ -49,10 +42,11 @@ const DownloadBox = (props: DownloadBoxProps) => {
         <div className='description'>ダウンロードする準備が整いました</div>
         <div className='section'>
           <button className="downloadButton" onClick={() => handleDownload()}>Download</button>
+          <button className="downloadButton" onClick={() => window.location.href = '/'}>TOPに戻る</button>
         </div>
       </div>
       <div className='infors'>
-        <div className='cont'>動画タイトル: {navigator.userAgent.match(/iPhone|Android.+Mobile/) && infors?.title && infors.title.length  > 20 ? infors?.title.substring(0, 20) + '...' : infors?.title}</div>
+        <div className='cont'>動画タイトル: {navigator.userAgent.match(/iPhone|Android.+Mobile/) && infors?.title && infors.title.length > 20 ? infors?.title.substring(0, 20) + '...' : infors?.title}</div>
         <div className='cont'>動画時間: {infors?.time}</div>
         <a href={`https://www.youtube.com/watch?v=${props.id}`} target="_blank"><img src={infors?.thumbnail} alt="you're small fish" className='thumb'/></a>
       </div>
