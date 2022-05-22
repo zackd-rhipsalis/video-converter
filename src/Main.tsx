@@ -98,13 +98,21 @@ const Main = () => {
       setToggleBox(true);
     } catch (e) {
       console.log(e);
-      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・動画時間が長すぎる\n・対応していないビデオフォーマット\n※対応フォーマット: MP4, AVI, MOV (quicktime)');
+      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・動画時間が長すぎる\n・ファイルの中身が壊れている\n・対応していないビデオフォーマット\n※対応フォーマット: MP4, AVI, MOV (quicktime)');
       window.location.href = '/';
     };
   };
 
+  const WakeyWakey = (): void => {
+    fetch('https://zackd-converter.herokuapp.com');
+  };
+
   useEffect(() => {
-    if(inputValue && once.current) handleConvert();
+    if(inputValue && once.current) {
+      handleConvert();
+    } else if(!inputValue && once.current) {
+      WakeyWakey();
+    };
     once.current = false;
   }, []);
 
