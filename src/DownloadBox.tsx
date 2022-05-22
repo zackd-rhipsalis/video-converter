@@ -3,9 +3,11 @@ import fileDownload from 'js-file-download';
 import { useEffect, useRef, useState } from 'react';
 
 type DownloadBoxProps = {
+  type: string;
   blob: Blob;
-  format: string;
-  id: string;
+  format?: string;
+  id?: string;
+  fileName?: string;
 };
 
 type Infors = {
@@ -18,10 +20,16 @@ const DownloadBox = (props: DownloadBoxProps) => {
   const [infors, setInfors] = useState <Infors> ();
   const once = useRef(true);
 
-  const handleDownload = (): void => fileDownload(props.blob, `${infors?.title}.${props.format}`);
+  const handleDownload = (): void => {
+    if(props.type === 'youtube') {
+      fileDownload(props.blob, `${infors?.title}.${props.format}`);
+    } else {
+      fileDownload(props.blob, `${props.fileName}.mp3`);
+    }
+  };
 
   useEffect(() => {
-    if(once.current) {
+    if(once.current && props.type === 'youtube') {
       (async () => {
         const infos = await videoInfo();
         setInfors(infos);
@@ -42,14 +50,16 @@ const DownloadBox = (props: DownloadBoxProps) => {
         <div className='description'>ダウンロードする準備が整いました</div>
         <div className='section'>
           <button className="downloadButton" onClick={() => handleDownload()}>Download</button>
-          <button className="downloadButton" onClick={() => window.location.href = '/'}>TOPに戻る</button>
+          <button className="downloadButton" onClick={() => window.location.href = '/'}>TOPへ戻る</button>
         </div>
       </div>
-      <div className='infors'>
-        <div className='cont'>動画タイトル: {navigator.userAgent.match(/iPhone|Android.+Mobile/) && infors?.title && infors.title.length > 25 ? infors?.title.substring(0, 25) + '...' : infors?.title}</div>
-        <div className='cont'>動画時間: {infors?.time}</div>
-        <a href={`https://www.youtube.com/watch?v=${props.id}`} target="_blank"><img src={infors?.thumbnail} alt="you're small fish" className='thumb'/></a>
-      </div>
+      {props.type === 'youtube' ? (
+        <div className='infors'>
+          <div className='cont'>動画タイトル: {navigator.userAgent.match(/iPhone|Android.+Mobile/) && infors?.title && infors.title.length > 25 ? infors?.title.substring(0, 25) + '...' : infors?.title}</div>
+          <div className='cont'>動画時間: {infors?.time}</div>
+          <a href={`https://www.youtube.com/watch?v=${props.id}`} target="_blank"><img src={infors?.thumbnail} alt="you're small fish" className='thumb'/></a>
+        </div>
+      ) : null}
     </>
   );
 };

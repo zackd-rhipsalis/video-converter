@@ -100,6 +100,30 @@
   cursor: pointer;
 }
 
+.fileButton {
+  margin-top: 0.5rem;
+  color: #fff;
+  background-color: #384878;
+  box-shadow: 0 3px 1px rgb(0, 0, 0);
+
+}
+
+.label {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  color: #ffffff;
+  background-color: #384878;
+  cursor: pointer;
+}
+
+.file-upload {
+  display: none;
+}
+
+.selected {
+  font-size: 1.1rem;
+}
+
 .downloadButton {
   text-align: center;
   background-color: rgb(185, 214, 128);
