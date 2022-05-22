@@ -98,7 +98,8 @@ const Main = () => {
       setToggleBox(true);
     } catch (e) {
       console.log(e);
-      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・動画時間が長すぎる\n対応していないビデオフォーマット\n※対応フォーマット: MP4, AVI, MOV, MPEG2')
+      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・動画時間が長すぎる\n・対応していないビデオフォーマット\n※対応フォーマット: MP4, AVI, MOV (quicktime)');
+      window.location.href = '/';
     };
   };
 
