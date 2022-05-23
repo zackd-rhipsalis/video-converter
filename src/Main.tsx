@@ -6,21 +6,22 @@ import './App.css';
 const Main = () => {
   const param = new URL(window.location.href).searchParams;
   const [inputValue, setInputValue] = useState(param.get('value') || '');
-  const [selectedFile, setSelectedFile] = useState <any> ();
-  const [isSelected, setIsSelected] = useState(false);
   const [fileName, setFileName] = useState('');
-  const [toggleBox, setToggleBox] = useState(false);
   const [convertType, setConvertType] = useState('');
+  const [msg, setMsg] = useState('');
   const [id, setId] = useState('');
   const [formatToggle, setFormatToggle] = useState(param.get('format') === 'mp3' || param.get('format') === 'mp4' ? param.get('format') : 'mp3');
+  const [isSelected, setIsSelected] = useState(false);
+  const [toggleBox, setToggleBox] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [selectedFile, setSelectedFile] = useState <any> ();
   const [newBlob, setNewBlob] = useState <Blob> ();
-  const [msg, setMsg] = useState('');
   const once = useRef(true);
   const converting = useRef(false);
 
   const handleConvert = async (): Promise <void> => {
     const get_id = getId(inputValue) || '';
+
     if(!inputValue) {
       alert("URLを入力してください");
       return;
@@ -28,6 +29,7 @@ const Main = () => {
       alert("不正なURLです。")
       return
     };
+
     setMsg('動画を' + ((formatToggle === 'mp3') ? 'MP3' : 'MP4') + 'に変換しています...');
     setDisabled(true);
     setId(get_id);
@@ -44,9 +46,11 @@ const Main = () => {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({id: tube_id, type: formatToggle})
       });
+
       if(!res.ok) {
         throw new Error('ytdlまたはexecのエラー');
       };
+
       setMsg('ダウンロードの準備をしています...');
       const blob = await res.blob();
       setNewBlob(blob);
@@ -58,17 +62,18 @@ const Main = () => {
       window.location.href = '/';
     };
   };
-  
+
   const handleUpload = (file: ChangeEvent<HTMLInputElement>): void => {
     if(!file.target.files![0].type.match(/video/)) {
       alert("動画ファイルをアップロードしてください");
       return;
     };
+
     setSelectedFile(file.target.files![0]);
     setFileName(file.target.files![0].name.substring(0, file.target.files![0].name.length - 4));
     setIsSelected(true);
   };
-  
+
   const handleConvertFile = async (): Promise <void> => {
     setDisabled(true);
     setMsg('動画ファイルをMP3に変換しています...');

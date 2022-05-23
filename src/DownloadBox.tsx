@@ -2,13 +2,20 @@ import './App.css';
 import fileDownload from 'js-file-download';
 import { useEffect, useRef, useState } from 'react';
 
-type DownloadBoxProps = {
+type YouTube = {
   type: string;
   blob: Blob;
-  format?: string;
-  id?: string;
-  fileName?: string;
+  format: string;
+  id: string;
 };
+
+type VideoFile = {
+  type: string;
+  blob: Blob;
+  fileName: string;
+};
+
+type DownloadBoxProps = YouTube & VideoFile;
 
 type Infors = {
   title: string;
