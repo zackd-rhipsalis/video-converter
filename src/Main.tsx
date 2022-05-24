@@ -10,7 +10,7 @@ const Main = () => {
   const [convertType, setConvertType] = useState('');
   const [msg, setMsg] = useState('');
   const [id, setId] = useState('');
-  const [formatToggle, setFormatToggle] = useState(param.get('format') === 'mp3' || param.get('format') === 'mp4' ? param.get('format') : 'mp3');
+  const [formatToggle, setFormatToggle] = useState(`${param.get('format')} ${param.get('qua')}` || 'mp3 best');
   const [isSelected, setIsSelected] = useState(false);
   const [toggleBox, setToggleBox] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -30,7 +30,7 @@ const Main = () => {
       return
     };
 
-    setMsg('動画を' + ((formatToggle === 'mp3') ? 'MP3' : 'MP4') + 'に変換しています...');
+    setMsg('動画を' + ((formatToggle?.substring(0, 3) === 'mp3') ? 'MP3' : 'MP4') + 'に変換しています...');
     setDisabled(true);
     setId(get_id);
     converting.current = true;
@@ -44,7 +44,7 @@ const Main = () => {
         method: 'POST',
         mode: 'cors',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({id: tube_id, type: formatToggle})
+        body: JSON.stringify({id: tube_id, type: formatToggle?.substring(0, 3), quality: formatToggle?.substring(4)})
       });
 
       if(!res.ok) {
@@ -139,8 +139,10 @@ const Main = () => {
               placeholder='YouTube link'
             /> 
             <select className="format" onChange={event => setFormatToggle(event.target.value)} value={formatToggle!}>
-              <option value="mp3">MP3</option>
-              <option value="mp4">MP4</option>
+              <option value="mp3 normal">MP3 中音質</option>
+              <option value="mp3 best">MP3 高音質</option>
+              <option value="mp4 normal">MP4 中画質</option>
+              <option value="mp4 best">MP4 高画質 (長時間の変換＆膨大なファイルサイズになることをご了承ください)</option>
             </select>
             <br />
             <button 
@@ -179,7 +181,7 @@ const Main = () => {
         <div className='converting'>{msg}</div>
       ) : null}
       {toggleBox ? (
-       <DownloadBox type={convertType} blob={newBlob!} id={id} format={formatToggle!} fileName={fileName}/> 
+       <DownloadBox type={convertType} blob={newBlob!} id={id} format={formatToggle!.substring(0, 3)} fileName={fileName}/> 
       ) : null}
     </main>
   )
