@@ -11,7 +11,7 @@ const Main = () => {
   const [msg, setMsg] = useState('');
   const [id, setId] = useState('');
   const [formatToggle, setFormatToggle] = useState(param.get('format') || 'mp3');
-  const [quality, setQuality] = useState(param.get('qua') || 'normal');
+  const [quality, setQuality] = useState(param.get('qua') || 'best');
   const [isSelected, setIsSelected] = useState(false);
   const [toggleBox, setToggleBox] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -58,7 +58,7 @@ const Main = () => {
       setConvertType('youtube');
       setToggleBox(true);
     } catch (err) {
-      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・動画時間が長すぎる\n・動画が削除/非公開にされている\n・ライブ配信中、またはプレミア公開中\n・URLに誤りがある\n※動画時間や高画質を選択したことが原因で変換タイムアウトになった場合、10分ほど時間をおいてから再度お試しいただくと事前に変換したファイルを返します。');
+      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・長動画時間やMP4高画質指定が原因の変換タイムアウト => 10分ほど時間をおいてから再度同じ動画・クオリティ設定でお試しいただくと、事前に変換したファイルをダウンロードする準備から開始いたします。\n\n・動画が削除/非公開にされている\n・ライブ配信中、またはプレミア公開中\n・URLに誤りがある');
       console.log(err);
       window.location.href = '/';
     };
@@ -104,7 +104,7 @@ const Main = () => {
       setToggleBox(true);
     } catch (e) {
       console.log(e);
-      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・動画時間が長すぎる\n・ファイルの中身が壊れている\n・対応していないビデオフォーマット\n※対応フォーマット: MP4, AVI, MOV (quicktime)');
+      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・長時間の動画\n・無音声の動画\n・壊れたファイル\n・対応していないビデオフォーマット\n※対応フォーマット: MP4, AVI, MOV (quicktime)');
       window.location.href = '/';
     };
   };

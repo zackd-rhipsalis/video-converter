@@ -36,11 +36,13 @@ const DownloadBox = (props: DownloadBoxProps) => {
   };
 
   useEffect(() => {
-    if(once.current && props.type === 'youtube') {
-      (async () => {
-        const infos = await videoInfo();
-        setInfors(infos);
-      })();
+    if(once.current) {
+      if(props.type === 'youtube') {
+        (async () => {
+          const infos = await videoInfo();
+          setInfors(infos);
+        })();
+      };
     };
     once.current = false;
   }, [])
