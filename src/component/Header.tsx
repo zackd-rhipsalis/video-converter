@@ -1,7 +1,7 @@
-import logo from './logo.png';
-import './App.css';
+import logo from '../logo.png';
+import '../css/App.css';
 
-const Header =  () => {
+export default (): JSX.Element => {
   return (
     <header className='header'>
       <img src={logo} alt="logo" className='header-logo'/>
@@ -10,5 +10,3 @@ const Header =  () => {
     </header>
   );
 };
-
-export default Header;

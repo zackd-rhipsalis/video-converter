@@ -1,9 +1,9 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import DownloadBox from './DownloadBox';
 import getId from 'get-youtube-id';
-import './App.css';
+import '../css/App.css';
 
-const Main = () => {
+export default (): JSX.Element => {
   const param = new URL(window.location.href).searchParams;
   const [inputValue, setInputValue] = useState(param.get('value') || '');
   const [fileName, setFileName] = useState('');
@@ -192,5 +192,3 @@ const Main = () => {
     </main>
   )
 };
-
-export default Main;
