@@ -23,7 +23,7 @@ type Infors = {
   thumbnail: string;
 };
 
-const DownloadBox = (props: DownloadBoxProps) => {
+export default (props: DownloadBoxProps): JSX.Element => {
   const [infors, setInfors] = useState <Infors> ();
   const once = useRef(true);
 
@@ -72,5 +72,3 @@ const DownloadBox = (props: DownloadBoxProps) => {
     </>
   );
 };
-
-export default DownloadBox;
