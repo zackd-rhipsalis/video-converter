@@ -48,7 +48,12 @@ export default (): JSX.Element => {
         body: JSON.stringify({id: tube_id, type: formatToggle, quality})
       });
 
-      if(!res.ok) {
+      if(res.status === 102 && window.localStorage.getItem('once') !== 'true') {
+        setTimeout(() => {
+          window.localStorage.setItem('once', 'true');
+          window.location.href = `/?value=${inputValue}&format=${formatToggle}&qua=${quality}`
+        }, 10000);
+      } else if(!res.ok) {
         throw new Error('ytdlまたはexecのエラー');
       };
 
@@ -57,8 +62,9 @@ export default (): JSX.Element => {
       setNewBlob(blob);
       setConvertType('youtube');
       setToggleBox(true);
+      window.localStorage.setItem('once', 'false');
     } catch (err) {
-      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・長動画時間やMP4高画質指定が原因の変換タイムアウト => 10分ほど時間をおいてから再度同じ動画・クオリティ設定でお試しいただくと、事前に変換したファイルをダウンロードする準備から開始いたします。\n\n・動画が削除/非公開にされている\n・ライブ配信中、またはプレミア公開中\n・URLに誤りがある');
+      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・長動画時間やMP4高画質指定が原因の変換タイムアウト\n\n=> 1~5分ほど時間をおいてから再度同じ動画・クオリティ設定でお試しいただくと、事前に変換したファイルをダウンロードする準備から開始いたします。\n\n・動画が削除/非公開にされている\n・ライブ配信中、またはプレミア公開中\n・URLに誤りがある');
       console.log(err);
       window.location.href = '/';
     };
