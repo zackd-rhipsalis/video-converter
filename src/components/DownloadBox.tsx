@@ -28,24 +28,19 @@ export default (props: DownloadBoxProps): JSX.Element => {
   const once = useRef(true);
 
   const handleDownload = (): void => {
-    if(props.type === 'youtube') {
-      fileDownload(props.blob, `${infors?.title}.${props.format}`);
-    } else {
-      fileDownload(props.blob, `${props.fileName}.mp3`);
-    }
+    (props.type === 'youtube') ? fileDownload(props.blob, `${infors?.title}.${props.format}`)
+    : fileDownload(props.blob, `${props.fileName}.mp3`);
   };
 
   useEffect(() => {
-    if(once.current) {
-      if(props.type === 'youtube') {
-        (async () => {
-          const infos = await videoInfo();
-          setInfors(infos);
-        })();
-      };
+    if(once.current && props.type === 'youtube') {
+      (async () => {
+        const infos = await videoInfo();
+        setInfors(infos);
+      })();
     };
     once.current = false;
-  }, [])
+  }, []);
 
   const videoInfo = async (): Promise <Infors> => {
     const res = await fetch("https://zackd-converter.herokuapp.com/info?id=" + props.id);

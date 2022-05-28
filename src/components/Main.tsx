@@ -23,13 +23,8 @@ export default (): JSX.Element => {
   const handleConvert = async (): Promise <void> => {
     const get_id = getId(inputValue) || '';
 
-    if(!inputValue) {
-      alert("URLを入力してください");
-      return;
-    } else if(!get_id) {
-      alert("不正なURLです。")
-      return
-    };
+    if(!inputValue) return alert("URLを入力してください");
+    else if(!get_id) return alert("不正なURLです。");
 
     setMsg('動画を' + ((formatToggle === 'mp3') ? 'MP3' : 'MP4') + 'に変換しています...');
     setDisabled(true);
@@ -48,16 +43,13 @@ export default (): JSX.Element => {
         body: JSON.stringify({id: tube_id, type: formatToggle, quality})
       });
 
-      if(!res.ok) {
-        throw new Error('yt-dlpまたはexecのエラー');
-      };
+      if(!res.ok) throw new Error('yt-dlpまたはexecのエラー');
 
       setMsg('ダウンロードの準備をしています...');
       const blob = await res.blob();
       setNewBlob(blob);
       setConvertType('youtube');
       setToggleBox(true);
-      window.localStorage.setItem('once', 'false');
     } catch (err) {
       alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・長動画時間やMP4高画質指定が原因の変換タイムアウト\n\n=> 1~5分ほど時間をおいてから再度同じ動画・クオリティ設定でお試しいただくと、事前に変換したファイルをダウンロードする準備から開始いたします。\n\n・動画が削除/非公開にされている\n・ライブ配信中、またはプレミア公開中\n・URLに誤りがある');
       console.log(err);
@@ -66,10 +58,7 @@ export default (): JSX.Element => {
   };
 
   const handleUpload = (file: ChangeEvent<HTMLInputElement>): void => {
-    if(!file.target.files![0].type.match(/video/)) {
-      alert("動画ファイルをアップロードしてください");
-      return;
-    };
+    if(!(/video/).test(file.target.files![0].type)) return alert("動画ファイルをアップロードしてください");
 
     setSelectedFile(file.target.files![0]);
     setFileName(file.target.files![0].name.substring(0, file.target.files![0].name.length - 4));
@@ -94,9 +83,7 @@ export default (): JSX.Element => {
         body: fd
       });
 
-      if(!res.ok) {
-        throw new Error('知名度の低いビデオフォーマットまたはexecのエラー');
-      };
+      if(!res.ok) throw new Error('知名度の低いビデオフォーマットまたはexecのエラー');
 
       setMsg('ダウンロードの準備をしています...');
       const blob = await res.blob();
@@ -120,11 +107,8 @@ export default (): JSX.Element => {
   };
 
   useEffect(() => {
-    if(inputValue && formatToggle && quality && once.current) {
-      handleConvert();
-    } else if(!inputValue && once.current) {
-      WakeyWakey();
-    };
+    if(inputValue && once.current)handleConvert();
+    else if(!inputValue && once.current) WakeyWakey();
     once.current = false;
   }, []);
 

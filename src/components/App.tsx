@@ -2,13 +2,11 @@ import '../css/App.css';
 import Header from './Header';
 import Main from './Main';
 
-function App() {
+export default (): JSX.Element => {
   return (
     <>
       <Header />
       <Main />
     </>
   );
-}
-
-export default App;
+};
