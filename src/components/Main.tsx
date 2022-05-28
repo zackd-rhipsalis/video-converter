@@ -48,13 +48,8 @@ export default (): JSX.Element => {
         body: JSON.stringify({id: tube_id, type: formatToggle, quality})
       });
 
-      if(res.status === 102 && window.localStorage.getItem('once') !== 'true') {
-        setTimeout(() => {
-          window.localStorage.setItem('once', 'true');
-          window.location.href = `/?value=${inputValue}&format=${formatToggle}&qua=${quality}`
-        }, 10000);
-      } else if(!res.ok) {
-        throw new Error('ytdlまたはexecのエラー');
+      if(!res.ok) {
+        throw new Error('yt-dlpまたはexecのエラー');
       };
 
       setMsg('ダウンロードの準備をしています...');
