@@ -3,6 +3,8 @@ import DownloadBox from './DownloadBox';
 import getId from 'get-youtube-id';
 import '../css/App.css';
 
+type OnChange <T> = (event: T) => void;
+
 export default (): JSX.Element => {
   const param = new URL(window.location.href).searchParams;
   const [inputValue, setInputValue] = useState(param.get('value') || '');
@@ -32,7 +34,7 @@ export default (): JSX.Element => {
     converting.current = true;
     await callConverter(get_id);
     converting.current = false;
-  };
+  }
 
   const callConverter = async (tube_id: string): Promise <void> => {
     try {
@@ -43,7 +45,7 @@ export default (): JSX.Element => {
         body: JSON.stringify({id: tube_id, type: formatToggle, quality})
       });
 
-      if(!res.ok) throw new Error('yt-dlpまたはexecのエラー');
+      if(!res.ok) throw new Error('execのエラー');
 
       setMsg('ダウンロードの準備をしています...');
       const blob = await res.blob();
@@ -54,16 +56,16 @@ export default (): JSX.Element => {
       alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・長動画時間やMP4高画質指定が原因の変換タイムアウト\n\n=> 1~5分ほど時間をおいてから再度同じ動画・クオリティ設定でお試しいただくと、事前に変換したファイルをダウンロードする準備から開始いたします。\n\n・動画が削除/非公開にされている\n・ライブ配信中、またはプレミア公開中\n・URLに誤りがある');
       console.log(err);
       window.location.href = '/';
-    };
-  };
+    }
+  }
 
-  const handleUpload = (file: ChangeEvent<HTMLInputElement>): void => {
-    if(!(/video/).test(file.target.files![0].type)) return alert("動画ファイルをアップロードしてください");
+  const handleUpload: OnChange <ChangeEvent<HTMLInputElement>> = (event) => {
+    if(!(/video/).test(event.target.files![0].type)) return alert("動画ファイルをアップロードしてください");
 
-    setSelectedFile(file.target.files![0]);
-    setFileName(file.target.files![0].name.substring(0, file.target.files![0].name.length - 4));
+    setSelectedFile(event.target.files![0]);
+    setFileName(event.target.files![0].name.substring(0, event.target.files![0].name.length - 4));
     setIsSelected(true);
-  };
+  }
 
   const handleConvertFile = async (): Promise <void> => {
     setDisabled(true);
@@ -71,7 +73,7 @@ export default (): JSX.Element => {
     converting.current = true;
     await callVideoFileConverter();
     converting.current = false;
-  };
+  }
 
   const callVideoFileConverter = async (): Promise <void> => {
     try {
@@ -94,23 +96,23 @@ export default (): JSX.Element => {
       console.log(e);
       alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・長時間の動画\n・無音声の動画\n・壊れたファイル\n・対応していないビデオフォーマット\n※対応フォーマット: MP4, AVI, MOV (quicktime)');
       window.location.href = '/';
-    };
-  };
+    }
+  }
 
-  const handleFormat = (event: ChangeEvent<HTMLSelectElement>): void => {
+  const handleFormat: OnChange <ChangeEvent<HTMLSelectElement>> = (event)=> {
     setFormatToggle(event.target.value.substring(0, 3));
     setQuality(event.target.value.substring(4));
-  };
+  }
 
   const WakeyWakey = (): void => {
     fetch('https://zackd-converter.herokuapp.com');
-  };
+  }
 
   useEffect(() => {
     if(inputValue && once.current)handleConvert();
     else if(!inputValue && once.current) WakeyWakey();
     once.current = false;
-  }, []);
+  }, [])
 
   const contentsToggle = toggleBox ? 'none' : 'block';
   const fileUploadToggle = isSelected ? 'none' : 'inilne-block';
@@ -175,5 +177,5 @@ export default (): JSX.Element => {
        <DownloadBox type={convertType} blob={newBlob!} id={id} format={formatToggle} fileName={fileName}/> 
       ) : null}
     </main>
-  )
-};
+  );
+}

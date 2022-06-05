@@ -7,23 +7,24 @@ type YouTube = {
   blob: Blob;
   format: string;
   id: string;
-};
+}
 
 type VideoFile = {
   type: string;
   blob: Blob;
   fileName: string;
-};
+}
 
 type DownloadBoxProps = YouTube & VideoFile;
+type DownloadBoxType = (props: DownloadBoxProps) => JSX.Element;
 
 type Infors = {
   title: string;
   time: string;
   thumbnail: string;
-};
+}
 
-export default (props: DownloadBoxProps): JSX.Element => {
+const DownloadBox: DownloadBoxType = (props) => {
   const [infors, setInfors] = useState <Infors> ();
   const once = useRef(true);
 
@@ -66,4 +67,6 @@ export default (props: DownloadBoxProps): JSX.Element => {
       ) : null}
     </>
   );
-};
+}
+
+export default DownloadBox;
