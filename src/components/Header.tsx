@@ -1,4 +1,4 @@
-import logo from '../logo.png';
+import logo from '../assets/logo.png';
 import '../css/App.css';
 
 export default (): JSX.Element => (

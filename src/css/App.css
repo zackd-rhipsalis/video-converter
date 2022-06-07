@@ -228,6 +228,8 @@
   }
 }
 
+/* animation */
+
 @keyframes converting {
   0% {
     opacity: 1;
