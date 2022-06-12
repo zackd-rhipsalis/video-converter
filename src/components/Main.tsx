@@ -7,12 +7,14 @@ type OnChange <T> = (event: T) => void;
 
 export default (): JSX.Element => {
   const param = new URL(window.location.href).searchParams;
+  const fm = param.get('format');
+  const format_init: 'mp3' | 'mp4' =  fm === 'mp3' || fm === 'mp4' ? fm : 'mp3';
   const [inputValue, setInputValue] = useState(param.get('value') || '');
   const [fileName, setFileName] = useState('');
   const [convertType, setConvertType] = useState('');
   const [msg, setMsg] = useState('');
   const [id, setId] = useState('');
-  const [formatToggle, setFormatToggle] = useState(param.get('format') || 'mp3');
+  const [formatToggle, setFormatToggle] = useState(format_init);
   const [quality, setQuality] = useState(param.get('qua') || 'best');
   const [isSelected, setIsSelected] = useState(false);
   const [toggleBox, setToggleBox] = useState(false);
@@ -100,13 +102,13 @@ export default (): JSX.Element => {
   }
 
   const handleFormat: OnChange <ChangeEvent<HTMLSelectElement>> = (event)=> {
-    setFormatToggle(event.target.value.substring(0, 3));
+    const value = event.target.value.substring(0, 3);
+    const setValue = value === 'mp3' || value === 'mp4' ? value : 'mp3';
+    setFormatToggle(setValue);
     setQuality(event.target.value.substring(4));
   }
 
-  const WakeyWakey = (): void => {
-    fetch('https://zackd-converter.herokuapp.com');
-  }
+  const WakeyWakey = (): void => {fetch('https://zackd-converter.herokuapp.com')}
 
   useEffect(() => {
     if(inputValue && once.current)handleConvert();

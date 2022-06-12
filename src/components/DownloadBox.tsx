@@ -3,25 +3,25 @@ import fileDownload from 'js-file-download';
 import { useEffect, useRef, useState } from 'react';
 
 type YouTube = {
-  type: string;
-  blob: Blob;
-  format: string;
-  id: string;
+  readonly type: string;
+  readonly blob: Blob;
+  readonly format: 'mp3' | 'mp4';
+  readonly id: string;
 }
 
 type VideoFile = {
-  type: string;
-  blob: Blob;
-  fileName: string;
+  readonly type: string;
+  readonly blob: Blob;
+  readonly fileName: string;
 }
 
 type DownloadBoxProps = YouTube & VideoFile;
 type DownloadBoxType = (props: DownloadBoxProps) => JSX.Element;
 
 type Infors = {
-  title: string;
-  time: string;
-  thumbnail: string;
+  readonly title: string;
+  readonly time: string;
+  readonly thumbnail: string;
 }
 
 const DownloadBox: DownloadBoxType = (props) => {
