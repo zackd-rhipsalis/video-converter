@@ -27,8 +27,8 @@ export default (): JSX.Element => {
   const handleConvert = async (): Promise <void> => {
     const get_id = getId(inputValue) || '';
 
-    if(!inputValue) return alert("URLを入力してください");
-    else if(!get_id) return alert("不正なURLです。");
+    if(!inputValue) return alert('URLを入力してください');
+    else if(!get_id) return alert('不正なURLです。');
 
     setMsg('動画を' + ((formatToggle === 'mp3') ? 'MP3' : 'MP4') + 'に変換しています...');
     setDisabled(true);
@@ -40,7 +40,7 @@ export default (): JSX.Element => {
 
   const callConverter = async (tube_id: string): Promise <void> => {
     try {
-      const res = await fetch("https://zackd-converter.herokuapp.com/youtube", {
+      const res = await fetch('https://zackd-converter.herokuapp.com/youtube', {
         method: 'POST',
         mode: 'cors',
         headers: {'Content-Type': 'application/json'},
@@ -62,7 +62,7 @@ export default (): JSX.Element => {
   }
 
   const handleUpload: OnChange <ChangeEvent<HTMLInputElement>> = (event) => {
-    if(!(/video/).test(event.target.files![0].type)) return alert("動画ファイルをアップロードしてください");
+    if(!(/video/).test(event.target.files![0].type)) return alert('動画ファイルをアップロードしてください');
 
     setSelectedFile(event.target.files![0]);
     setFileName(event.target.files![0].name.substring(0, event.target.files![0].name.length - 4));
@@ -133,11 +133,11 @@ export default (): JSX.Element => {
               className='textInput'
               placeholder='YouTube link'
             /> 
-            <select className="format" onChange={event => handleFormat(event)} value={`${formatToggle} ${quality}`}>
-              <option value="mp3 normal">MP3 中音質</option>
-              <option value="mp3 best">MP3 高音質</option>
-              <option value="mp4 normal">MP4 中画質</option>
-              <option value="mp4 best">MP4 高画質 (変換時間やファイルが膨大なサイズになることを予めご了承ください)</option>
+            <select className='format' onChange={event => handleFormat(event)} value={`${formatToggle} ${quality}`}>
+              <option value='mp3 normal'>MP3 中音質</option>
+              <option value='mp3 best'>MP3 高音質</option>
+              <option value='mp4 normal'>MP4 中画質</option>
+              <option value='mp4 best'>MP4 高画質 (変換時間やファイルが膨大なサイズになることを予めご了承ください)</option>
             </select>
             <br />
             <button 

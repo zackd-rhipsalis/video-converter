@@ -3,19 +3,19 @@ import fileDownload from 'js-file-download';
 import { useEffect, useRef, useState } from 'react';
 
 type YouTube = {
-  readonly type: 'youtube' | 'videoFile';
+  readonly type: 'youtube';
   readonly blob: Blob;
   readonly format: 'mp3' | 'mp4';
   readonly id: string;
 }
 
 type VideoFile = {
-  readonly type: 'youtube' | 'videoFile';
+  readonly type: 'videoFile';
   readonly blob: Blob;
   readonly fileName: string;
 }
 
-type DownloadBoxProps = YouTube & VideoFile;
+type DownloadBoxProps = YouTube | VideoFile;
 type DownloadBoxType = (props: DownloadBoxProps) => JSX.Element;
 
 type Infors = {
@@ -44,7 +44,7 @@ const DownloadBox: DownloadBoxType = (props) => {
   }, []);
 
   const videoInfo = async (): Promise <Infors> => {
-    const res = await fetch("https://zackd-converter.herokuapp.com/info?id=" + props.id);
+    const res = await fetch("https://zackd-converter.herokuapp.com/info?id=" + (props as YouTube).id);
     const infors = await res.json();
     return infors;
   };
