@@ -45,14 +45,17 @@ const DownloadBox: DownloadBoxType = (props) => {
   }, []);
 
   const videoInfo = async (): Promise <Infors> => {
+    try {
+      const isYoutube = (arg: YouTube | VideoFile): arg is YouTube => (arg as YouTube).id !== undefined;
+  
+      if (isYoutube(props)) {
+        const res = await fetch("https://zackd-converter.herokuapp.com/info?id=" + props.id);
+        if (!res.ok) throw new Error();
 
-    const isYoutube = (arg: YouTube | VideoFile): arg is YouTube => (arg as YouTube).id !== undefined;
-
-    if (isYoutube(props)) {
-      const res = await fetch("https://zackd-converter.herokuapp.com/info?id=" + props.id);
-      const infors = await res.json();
-      return infors;
-    } else {
+        const infors = await res.json();
+        return infors;
+      } else throw new Error();
+    } catch(e) {
       return {
         title: '例外が発生したようです。問題について管理者にご報告ください',
         time: '管理者Twitter: @tillberg_',
