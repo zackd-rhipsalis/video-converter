@@ -3,14 +3,14 @@ import fileDownload from 'js-file-download';
 import { useEffect, useRef, useState } from 'react';
 
 type YouTube = {
-  readonly type: string;
+  readonly type: 'youtube' | 'videoFile';
   readonly blob: Blob;
   readonly format: 'mp3' | 'mp4';
   readonly id: string;
 }
 
 type VideoFile = {
-  readonly type: string;
+  readonly type: 'youtube' | 'videoFile';
   readonly blob: Blob;
   readonly fileName: string;
 }
@@ -25,7 +25,7 @@ type Infors = {
 }
 
 const DownloadBox: DownloadBoxType = (props) => {
-  const [infors, setInfors] = useState <Infors> ();
+  const [infors, setInfors] = useState({} as Infors);
   const once = useRef(true);
 
   const handleDownload = (): void => {

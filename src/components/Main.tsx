@@ -11,7 +11,7 @@ export default (): JSX.Element => {
   const format_init: 'mp3' | 'mp4' =  fm === 'mp3' || fm === 'mp4' ? fm : 'mp3';
   const [inputValue, setInputValue] = useState(param.get('value') || '');
   const [fileName, setFileName] = useState('');
-  const [convertType, setConvertType] = useState('');
+  const [convertType, setConvertType] = useState('' as 'youtube' | 'videoFile');
   const [msg, setMsg] = useState('');
   const [id, setId] = useState('');
   const [formatToggle, setFormatToggle] = useState(format_init);
@@ -19,8 +19,8 @@ export default (): JSX.Element => {
   const [isSelected, setIsSelected] = useState(false);
   const [toggleBox, setToggleBox] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [selectedFile, setSelectedFile] = useState <any> ();
-  const [newBlob, setNewBlob] = useState <Blob> ();
+  const [selectedFile, setSelectedFile] = useState({} as File);
+  const [newBlob, setNewBlob] = useState({} as Blob);
   const once = useRef(true);
   const converting = useRef(false);
 
@@ -101,7 +101,7 @@ export default (): JSX.Element => {
     }
   }
 
-  const handleFormat: OnChange <ChangeEvent<HTMLSelectElement>> = (event)=> {
+  const handleFormat: OnChange <ChangeEvent<HTMLSelectElement>> = (event) => {
     const value = event.target.value.substring(0, 3);
     const setValue = value === 'mp3' || value === 'mp4' ? value : 'mp3';
     setFormatToggle(setValue);
