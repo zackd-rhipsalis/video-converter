@@ -1,4 +1,5 @@
 import '../css/App.css';
+import errImg from '../assets/notfound.png';
 import fileDownload from 'js-file-download';
 import { useEffect, useRef, useState } from 'react';
 
@@ -44,9 +45,20 @@ const DownloadBox: DownloadBoxType = (props) => {
   }, []);
 
   const videoInfo = async (): Promise <Infors> => {
-    const res = await fetch("https://zackd-converter.herokuapp.com/info?id=" + (props as YouTube).id);
-    const infors = await res.json();
-    return infors;
+
+    const isYoutube = (arg: YouTube | VideoFile): arg is YouTube => (arg as YouTube).id !== undefined;
+
+    if (isYoutube(props)) {
+      const res = await fetch("https://zackd-converter.herokuapp.com/info?id=" + props.id);
+      const infors = await res.json();
+      return infors;
+    } else {
+      return {
+        title: '例外が発生したようです。問題について管理者にご報告ください',
+        time: '管理者Twitter: @tillberg_',
+        thumbnail: errImg
+      }
+    }
   };
 
   return (
@@ -60,7 +72,7 @@ const DownloadBox: DownloadBoxType = (props) => {
       </div>
       {props.type === 'youtube' ? (
         <div className='infors'>
-          <div className='cont'>動画タイトル: {navigator.userAgent.match(/iPhone|Android.+Mobile/) && infors?.title && infors.title.length > 25 ? infors?.title.substring(0, 25) + '...' : infors?.title}</div>
+          <div className='cont'>動画タイトル: {navigator.userAgent.match(/iPhone|Android.+Mobile/) && infors.title && infors.title.length > 25 ? infors.title.substring(0, 25) + '...' : infors.title}</div>
           <div className='cont'>動画時間: {infors?.time}</div>
           <a href={`https://www.youtube.com/watch?v=${props.id}`} target="_blank"><img src={infors?.thumbnail} alt="you're small fish" className='thumb'/></a>
         </div>
