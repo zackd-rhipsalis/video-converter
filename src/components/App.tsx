@@ -2,9 +2,11 @@ import '../css/App.css';
 import Header from './Header';
 import Main from './Main';
 
-export default (): JSX.Element => (
+const App = (): JSX.Element => (
   <>
     <Header />
     <Main />
   </>
 );
+
+export default App;

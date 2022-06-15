@@ -5,7 +5,7 @@ import '../css/App.css';
 
 type OnChange <T> = (event: T) => void;
 
-export default (): JSX.Element => {
+const Main = (): JSX.Element => {
   const param = new URL(window.location.href).searchParams;
   const fm = param.get('format');
   const format_init: 'mp3' | 'mp4' =  fm === 'mp3' || fm === 'mp4' ? fm : 'mp3';
@@ -62,11 +62,15 @@ export default (): JSX.Element => {
   }
 
   const handleUpload: OnChange <ChangeEvent<HTMLInputElement>> = (event) => {
-    if(!(/video/).test(event.target.files![0].type)) return alert('動画ファイルをアップロードしてください');
-
-    setSelectedFile(event.target.files![0]);
-    setFileName(event.target.files![0].name.substring(0, event.target.files![0].name.length - 4));
-    setIsSelected(true);
+    const files = event.target.files;
+    if (files instanceof FileList) {
+      if(!(/video/).test(files[0].type)) return alert('動画ファイルをアップロードしてください');
+      setSelectedFile(files[0]);
+      setFileName(files[0].name.substring(0, files[0].name.length - 4));
+      setIsSelected(true);
+    } else {
+      return alert('ファイルの読み込みに失敗しました');
+    }
   }
 
   const handleConvertFile = async (): Promise <void> => {
@@ -79,12 +83,12 @@ export default (): JSX.Element => {
 
   const callVideoFileConverter = async (): Promise <void> => {
     try {
-      const fd = new FormData();
-      fd.append('file', selectedFile);
+      const data = new FormData();
+      data.append('file', selectedFile);
       const res = await fetch('https://zackd-converter.herokuapp.com/convert', {
         method: 'POST',
         mode: 'cors',
-        body: fd
+        body: data
       });
 
       if(!res.ok) throw new Error('知名度の低いビデオフォーマットまたはexecのエラー');
@@ -103,8 +107,7 @@ export default (): JSX.Element => {
 
   const handleFormat: OnChange <ChangeEvent<HTMLSelectElement>> = (event) => {
     const value = event.target.value.substring(0, 3);
-    const setValue = value === 'mp3' || value === 'mp4' ? value : 'mp3';
-    setFormatToggle(setValue);
+    setFormatToggle(value === 'mp3' || value === 'mp4' ? value : 'mp3');
     setQuality(event.target.value.substring(4));
   }
 
@@ -176,8 +179,10 @@ export default (): JSX.Element => {
         <div className='converting'>{msg}</div>
       ) : null}
       {toggleBox ? (
-       <DownloadBox type={convertType} blob={newBlob!} id={id} format={formatToggle} fileName={fileName}/> 
+       <DownloadBox type={convertType} blob={newBlob} id={id} format={formatToggle} fileName={fileName}/> 
       ) : null}
     </main>
   );
 }
+
+export default Main;

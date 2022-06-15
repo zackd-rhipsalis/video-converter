@@ -17,7 +17,6 @@ type VideoFile = {
 }
 
 type DownloadBoxProps = YouTube | VideoFile;
-type DownloadBoxType = (props: DownloadBoxProps) => JSX.Element;
 
 type Infors = {
   readonly title: string;
@@ -25,7 +24,7 @@ type Infors = {
   readonly thumbnail: string;
 }
 
-const DownloadBox: DownloadBoxType = (props) => {
+const DownloadBox = (props: DownloadBoxProps): JSX.Element => {
   const [infors, setInfors] = useState({} as Infors);
   const once = useRef(true);
 
@@ -76,8 +75,8 @@ const DownloadBox: DownloadBoxType = (props) => {
       {props.type === 'youtube' ? (
         <div className='infors'>
           <div className='cont'>動画タイトル: {navigator.userAgent.match(/iPhone|Android.+Mobile/) && infors.title && infors.title.length > 25 ? infors.title.substring(0, 25) + '...' : infors.title}</div>
-          <div className='cont'>動画時間: {infors?.time}</div>
-          <a href={`https://www.youtube.com/watch?v=${props.id}`} target="_blank"><img src={infors?.thumbnail} alt="you're small fish" className='thumb'/></a>
+          <div className='cont'>動画時間: {infors.time}</div>
+          <a href={`https://www.youtube.com/watch?v=${props.id}`} target="_blank"><img src={infors.thumbnail} alt="you're small fish" className='thumb'/></a>
         </div>
       ) : null}
     </>
