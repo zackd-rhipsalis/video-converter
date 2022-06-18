@@ -45,12 +45,13 @@ const DownloadBox = (props: DownloadBoxProps): JSX.Element => {
   }, []);
 
   const videoInfo = async (): Promise <Infors> => {
-
     try {
+
       const isYoutube = (arg: YouTube | VideoFile): arg is YouTube => (arg as YouTube).id !== undefined;
-  
+
       if (isYoutube(props)) {
         const res = await fetch("https://zackd-converter.herokuapp.com/info?id=" + props.id);
+
         if (!res.ok) throw new Error('失敗');
 
         const infors = await res.json();
