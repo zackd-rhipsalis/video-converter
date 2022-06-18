@@ -45,10 +45,10 @@ const DownloadBox = (props: DownloadBoxProps): JSX.Element => {
   }, []);
 
   const videoInfo = async (): Promise <Infors> => {
+
     try {
-
       const isYoutube = (arg: YouTube | VideoFile): arg is YouTube => (arg as YouTube).id !== undefined;
-
+  
       if (isYoutube(props)) {
         const res = await fetch("https://zackd-converter.herokuapp.com/info?id=" + props.id);
         if (!res.ok) throw new Error('失敗');
@@ -56,11 +56,9 @@ const DownloadBox = (props: DownloadBoxProps): JSX.Element => {
         const infors = await res.json();
         return infors;
       } else throw new SyntaxError('例外');
-
     } catch (err) {
       const title = (err as Error | SyntaxError).message === '失敗' ? 'エラー: リソースの読み込みに失敗しました'
       : 'エラー: 処理に例外が発生しました';
-
       return {title, time: 'null :(', thumbnail: errImg};
     }
   }
