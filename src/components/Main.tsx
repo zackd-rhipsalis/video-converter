@@ -6,6 +6,7 @@ import '../css/App.css';
 type OnChange <T> = (event: T) => void;
 
 const Main = (): JSX.Element => {
+
   const param = new URL(window.location.href).searchParams;
   const fm = param.get('format');
   const format_init: 'mp3' | 'mp4' =  fm === 'mp3' || fm === 'mp4' ? fm : 'mp3';
@@ -55,7 +56,7 @@ const Main = (): JSX.Element => {
       setConvertType('youtube');
       setToggleBox(true);
     } catch (err) {
-      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・長動画時間やMP4高画質指定が原因の変換タイムアウト\n\n=> 1~5分ほど時間をおいてから再度同じ動画・クオリティ設定でお試しいただくと、事前に変換したファイルをダウンロードする準備から開始いたします。\n\n・動画が削除/非公開にされている\n・ライブ配信中、またはプレミア公開中\n・URLに誤りがある');
+      alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・長動画時間やMP4高画質指定が原因の変換タイムアウト\n\n1~5分ほど時間をおいてから再度同じ動画・クオリティ設定でお試しいただくと、事前に変換したファイルをダウンロードする準備から開始いたします。\n\n・動画が削除/非公開にされている\n・ライブ配信中、またはプレミア公開中\n・URLに誤りがある');
       console.log(err);
       window.location.href = '/';
     }
@@ -99,7 +100,7 @@ const Main = (): JSX.Element => {
       setNewBlob(blob);
       setToggleBox(true);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       alert('処理を正常に完了できませんでした。\n以下の項目を確認してから再度お試しください。\n\n・長時間の動画\n・無音声の動画\n・壊れたファイル\n・対応していないビデオフォーマット\n※対応フォーマット: MP4, AVI, MOV (quicktime)');
       window.location.href = '/';
     }

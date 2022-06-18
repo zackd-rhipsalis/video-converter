@@ -25,13 +25,14 @@ type Infors = {
 }
 
 const DownloadBox = (props: DownloadBoxProps): JSX.Element => {
+
   const [infors, setInfors] = useState({} as Infors);
   const once = useRef(true);
 
   const handleDownload = (): void => {
     (props.type === 'youtube') ? fileDownload(props.blob, `${infors?.title}.${props.format}`)
     : fileDownload(props.blob, `${props.fileName}.mp3`);
-  };
+  }
 
   useEffect(() => {
     if(once.current && props.type === 'youtube') {
@@ -39,29 +40,30 @@ const DownloadBox = (props: DownloadBoxProps): JSX.Element => {
         const infos = await videoInfo();
         setInfors(infos);
       })();
-    };
+    }
     once.current = false;
   }, []);
 
   const videoInfo = async (): Promise <Infors> => {
     try {
+
       const isYoutube = (arg: YouTube | VideoFile): arg is YouTube => (arg as YouTube).id !== undefined;
-  
+
       if (isYoutube(props)) {
         const res = await fetch("https://zackd-converter.herokuapp.com/info?id=" + props.id);
-        if (!res.ok) throw new Error();
+        if (!res.ok) throw new Error('失敗');
 
         const infors = await res.json();
         return infors;
-      } else throw new Error();
-    } catch(e) {
-      return {
-        title: '例外が発生したようです。問題について管理者にご報告ください',
-        time: '管理者Twitter: @tillberg_',
-        thumbnail: errImg
-      }
+      } else throw new SyntaxError('例外');
+
+    } catch (err) {
+      const title = (err as Error | SyntaxError).message === '失敗' ? 'エラー: リソースの読み込みに失敗しました'
+      : 'エラー: 処理に例外が発生しました';
+
+      return {title, time: 'null :(', thumbnail: errImg};
     }
-  };
+  }
 
   return (
     <>
