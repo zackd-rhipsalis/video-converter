@@ -142,12 +142,12 @@
   height: 15rem
 }
 
-.converting {
+.converted {
   display: block;
   margin-top: 6.5rem;
   font-size: 1.2rem;
   text-align: center;
-  animation: converting backwards ease-in-out infinite normal 2s;
+  animation: converted backwards ease-in-out infinite normal 2s;
 }
 
 .infors {
@@ -202,7 +202,7 @@
     height: 2.4rem;
   }
 
-  .converting {
+  .converted {
     margin-top: 12rem;
     font-size: 1.5rem;
   }
@@ -230,7 +230,7 @@
 
 /* animation */
 
-@keyframes converting {
+@keyframes converted {
   0% {
     opacity: 1;
   } 50% {

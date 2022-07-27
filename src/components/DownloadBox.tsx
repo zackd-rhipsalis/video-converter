@@ -4,19 +4,19 @@ import fileDownload from 'js-file-download';
 import { useEffect, useRef, useState } from 'react';
 
 type YouTube = {
-  readonly type: 'youtube';
-  readonly blob: Blob;
-  readonly format: 'mp3' | 'mp4';
-  readonly id: string;
+  type: 'youtube';
+  blob: Blob;
+  format: 'mp3' | 'mp4';
+  id: string;
 }
 
 type VideoFile = {
-  readonly type: 'videoFile';
-  readonly blob: Blob;
-  readonly fileName: string;
+  type: 'videoFile';
+  blob: Blob;
+  fileName: string;
 }
 
-type DownloadBoxProps = YouTube | VideoFile;
+type DownloadBoxProps = Readonly <YouTube | VideoFile>;
 
 type Infors = {
   readonly title: string;
@@ -30,7 +30,7 @@ const DownloadBox = (props: DownloadBoxProps): JSX.Element => {
   const once = useRef(true);
 
   const handleDownload = (): void => {
-    (props.type === 'youtube') ? fileDownload(props.blob, `${infors?.title}.${props.format}`)
+    (props.type === 'youtube') ? fileDownload(props.blob, `${infors.title}.${props.format}`)
     : fileDownload(props.blob, `${props.fileName}.mp3`);
   }
 
@@ -50,11 +50,12 @@ const DownloadBox = (props: DownloadBoxProps): JSX.Element => {
       const isYoutube = (arg: YouTube | VideoFile): arg is YouTube => (arg as YouTube).id !== undefined;
 
       if (isYoutube(props)) {
+
         const res = await fetch("https://zackd-converter.herokuapp.com/info?id=" + props.id);
 
         if (!res.ok) throw new Error('失敗');
 
-        const infors = await res.json();
+        const infors = await res.json() as Infors;
         return infors;
       } else throw new SyntaxError('例外');
     } catch (err) {

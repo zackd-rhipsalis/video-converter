@@ -23,7 +23,7 @@ const Main = (): JSX.Element => {
   const [selectedFile, setSelectedFile] = useState({} as File);
   const [newBlob, setNewBlob] = useState({} as Blob);
   const once = useRef(true);
-  const converting = useRef(false);
+  const converted = useRef(false);
 
   const handleConvert = async (): Promise <void> => {
     const get_id = getId(inputValue) || '';
@@ -34,9 +34,9 @@ const Main = (): JSX.Element => {
     setMsg('動画を' + ((formatToggle === 'mp3') ? 'MP3' : 'MP4') + 'に変換しています...');
     setDisabled(true);
     setId(get_id);
-    converting.current = true;
+    converted.current = true;
     await callConverter(get_id);
-    converting.current = false;
+    converted.current = false;
   }
 
   const callConverter = async (tube_id: string): Promise <void> => {
@@ -77,9 +77,9 @@ const Main = (): JSX.Element => {
   const handleConvertFile = async (): Promise <void> => {
     setDisabled(true);
     setMsg('動画ファイルをMP3に変換しています...');
-    converting.current = true;
+    converted.current = true;
     await callVideoFileConverter();
-    converting.current = false;
+    converted.current = false;
   }
 
   const callVideoFileConverter = async (): Promise <void> => {
@@ -176,8 +176,8 @@ const Main = (): JSX.Element => {
           </div>
         </div>
       </div>
-      {converting.current ? (
-        <div className='converting'>{msg}</div>
+      {converted.current ? (
+        <div className='converted'>{msg}</div>
       ) : null}
       {toggleBox ? (
        <DownloadBox type={convertType} blob={newBlob} id={id} format={formatToggle} fileName={fileName}/> 
